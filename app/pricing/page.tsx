@@ -13,6 +13,7 @@ const kognitdeckPlans = [
     features: [
       "50 cards per month",
       "Text & PDF input",
+      "PDF extraction: up to 3,000 words",
       "Q&A format only",
       "Quiz mode (first 10 questions)",
       "Basic flashcard management",
@@ -30,6 +31,7 @@ const kognitdeckPlans = [
     features: [
       "250 cards per month",
       "Text & PDF input",
+      "PDF extraction: up to 10,000 words",
       "Q&A + MCQ formats",
       "Unlimited quiz mode",
       "Full analytics dashboard",
@@ -48,6 +50,7 @@ const kognitdeckPlans = [
     features: [
       "Unlimited cards",
       "All input methods + topic generation",
+      "PDF extraction: up to 20,000 words",
       "Q&A + MCQ formats",
       "Unlimited quiz mode",
       "Full analytics dashboard",
@@ -64,6 +67,7 @@ const kognitdeckPlans = [
 const featureRows = [
   { label: "Cards per month", values: ["50", "250", "Unlimited"] },
   { label: "Input methods", values: ["Text & PDF", "Text & PDF", "Text, PDF & Topic"] },
+  { label: "PDF word extraction", values: ["3,000 words", "10,000 words", "20,000 words"] },
   { label: "Card formats", values: ["Q&A only", "Q&A + MCQ", "Q&A + MCQ"] },
   { label: "Quiz mode", values: [false, "Unlimited", "Unlimited"] },
   { label: "Analytics dashboard", values: [false, true, true] },
