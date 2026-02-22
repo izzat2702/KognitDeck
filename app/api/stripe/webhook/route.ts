@@ -7,7 +7,7 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY ?? "", {
 });
 
 // Map a Stripe price ID back to a plan name.
-// Both the monthly and annual price IDs map to the same plan — only the
+// Both the monthly and annual price IDs map to the same plan; only the
 // billing interval differs, which Stripe handles on its side.
 function planFromPriceId(priceId: string): "pro" | "premium" | "free" {
   if (
@@ -24,7 +24,7 @@ function planFromPriceId(priceId: string): "pro" | "premium" | "free" {
 }
 
 // The webhook needs the raw body for signature verification.
-// In the App Router we get it via req.text() — no extra config needed.
+// In the App Router we get it via req.text(). No extra config needed.
 export async function POST(req: NextRequest) {
   const body = await req.text();
   const sig = req.headers.get("stripe-signature");
@@ -116,7 +116,7 @@ export async function POST(req: NextRequest) {
     }
   } catch (err) {
     console.error(`Error handling Stripe event ${event.type}:`, err);
-    // Return 200 so Stripe doesn't retry — log the error for investigation
+    // Return 200 so Stripe doesn't retry; log the error for investigation
     return NextResponse.json({ error: "Handler error" }, { status: 200 });
   }
 

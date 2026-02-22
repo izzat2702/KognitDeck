@@ -3,6 +3,8 @@ import { Footer } from "@/components/layout/Footer";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { AnimatedGridPattern } from "@/components/ui/animated-grid-pattern";
+import { cn } from "@/lib/utils";
 import { ArrowRight, Calendar } from "lucide-react";
 import Link from "next/link";
 
@@ -11,7 +13,7 @@ const posts = [
     slug: "spaced-repetition",
     title: "The Science of Spaced Repetition: Why Flashcards Work",
     excerpt:
-      "Cognitive science has studied memory for over a century. The forgetting curve, first mapped by Hermann Ebbinghaus in 1885, shows how information fades unless actively reviewed. Spaced repetition exploits this curve by scheduling reviews at precisely the right moment — just before you forget. The result is dramatically better long-term retention with far less study time.",
+      "Cognitive science has studied memory for over a century. The forgetting curve, first mapped by Hermann Ebbinghaus in 1885, shows how information fades unless actively reviewed. Spaced repetition exploits this curve by scheduling reviews at precisely the right moment, just before you forget. The result is dramatically better long-term retention with far less study time.",
     date: "January 15, 2026",
     category: "Study Science",
     categoryColor: "bg-green-100 text-green-700",
@@ -29,7 +31,7 @@ const posts = [
     slug: "study-smarter-guide",
     title: "How to Study Smarter: A Student's Complete Guide",
     excerpt:
-      "Most students study by re-reading notes and hoping the information sticks. Research consistently shows this is one of the least effective techniques available. This guide covers active recall, interleaving, the Pomodoro technique, and how to combine them with AI-powered flashcards to build a study system that actually produces results — without the burnout.",
+      "Most students study by re-reading notes and hoping the information sticks. Research consistently shows this is one of the least effective techniques available. This guide covers active recall, interleaving, the Pomodoro technique, and how to combine them with AI-powered flashcards to build a study system that actually produces results, without the burnout.",
     date: "February 18, 2026",
     category: "Study Tips",
     categoryColor: "bg-blue-100 text-blue-700",
@@ -41,8 +43,18 @@ export default function BlogPage() {
     <div className="min-h-screen flex flex-col bg-white">
       <Navbar />
 
-      <section className="bg-gradient-to-br from-blue-50 to-white py-20 px-6 text-center">
-        <div className="max-w-2xl mx-auto">
+      <section className="relative bg-gradient-to-br from-blue-50 to-white py-20 px-6 text-center overflow-hidden">
+        <AnimatedGridPattern
+          numSquares={30}
+          maxOpacity={0.06}
+          duration={3}
+          repeatDelay={0.8}
+          className={cn(
+            "text-blue-600",
+            "[mask-image:radial-gradient(ellipse_80%_70%_at_50%_50%,white,transparent)]",
+          )}
+        />
+        <div className="relative z-10 max-w-2xl mx-auto">
           <span className="inline-block bg-blue-100 text-blue-700 text-sm font-medium px-3 py-1 rounded-full mb-5">
             The KognitDeck Blog
           </span>

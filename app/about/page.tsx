@@ -5,6 +5,8 @@ import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { AnimatedGridPattern } from "@/components/ui/animated-grid-pattern";
+import { cn } from "@/lib/utils";
 import { GraduationCap, BookOpen, Briefcase, Zap, Users } from "lucide-react";
 import Link from "next/link";
 
@@ -79,8 +81,18 @@ export default function AboutPage() {
     <div className="min-h-screen flex flex-col bg-white">
       <Navbar />
 
-      <section className="bg-gradient-to-br from-blue-50 to-white py-24 px-6 text-center">
-        <div className="max-w-3xl mx-auto">
+      <section className="relative bg-gradient-to-br from-blue-50 to-white py-24 px-6 text-center overflow-hidden">
+        <AnimatedGridPattern
+          numSquares={30}
+          maxOpacity={0.06}
+          duration={3}
+          repeatDelay={0.8}
+          className={cn(
+            "text-blue-600",
+            "[mask-image:radial-gradient(ellipse_80%_70%_at_50%_50%,white,transparent)]",
+          )}
+        />
+        <div className="relative z-10 max-w-3xl mx-auto">
           <span className="inline-block bg-blue-100 text-blue-700 text-sm font-medium px-3 py-1 rounded-full mb-6">
             About KognitDeck
           </span>
@@ -90,7 +102,7 @@ export default function AboutPage() {
           <p className="text-lg text-gray-600 leading-relaxed">
             KognitDeck sits at the intersection of artificial intelligence and education. We build
             tools that make deep, lasting learning accessible to every student, teacher, and lifelong
-            learner on the planet — one flashcard at a time.
+            learner on the planet, one flashcard at a time.
           </p>
         </div>
       </section>
@@ -167,7 +179,7 @@ export default function AboutPage() {
         <div className="max-w-3xl mx-auto text-center">
           <p className="text-xl md:text-2xl text-white leading-relaxed mb-6 font-medium italic">
             &ldquo;I built KognitDeck because I was spending hours every week making flashcards by
-            hand. As a student, I knew AI could change that — so I built the tool I always wished
+            hand. As a student, I knew AI could change that, so I built the tool I always wished
             I had.&rdquo;
           </p>
           <p className="text-blue-100 font-semibold">Izzat Zulqarnain</p>
@@ -202,7 +214,7 @@ export default function AboutPage() {
         <div className="max-w-2xl mx-auto">
           <h2 className="text-3xl font-bold text-gray-900 mb-4">Ready to study smarter?</h2>
           <p className="text-gray-600 mb-8">
-            Start for free — no credit card required.
+            Start for free. No credit card required.
           </p>
           <div className="flex gap-4 justify-center flex-wrap">
             <Link href={isSignedIn ? "/dashboard" : "/auth/signup"}>

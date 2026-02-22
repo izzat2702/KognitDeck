@@ -189,7 +189,7 @@ export default function LandingPage() {
               {[
                 {
                   quote:
-                    "KognitDeck completely changed how I study for med school. I used to spend 3 hours making flashcards — now it takes 30 seconds. My USMLE prep has never been more efficient.",
+                    "KognitDeck completely changed how I study for med school. I used to spend 3 hours making flashcards. Now it takes 30 seconds. My USMLE prep has never been more efficient.",
                   name: "Sarah Chen",
                   role: "Medical Student, Johns Hopkins",
                   rating: 5,
@@ -279,7 +279,7 @@ export default function LandingPage() {
                 },
                 {
                   q: "What is the difference between Q&A and MCQ formats?",
-                  a: "Q&A cards show a question on the front and a written answer on the back — great for open-ended recall. MCQ (Multiple Choice) cards present a question with four options, perfect for test prep.",
+                  a: "Q&A cards show a question on the front and a written answer on the back, great for open-ended recall. MCQ (Multiple Choice) cards present a question with four options, perfect for test prep.",
                 },
                 {
                   q: "Is there a free trial for Pro or Premium?",
@@ -321,7 +321,7 @@ export default function LandingPage() {
             </h2>
             <p className="text-xl text-blue-100 mb-8 max-w-2xl mx-auto">
               Join over 50,000 students using KognitDeck to ace their exams.
-              Start free — no credit card required.
+              Start free. No credit card required.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <LandingCtaButton />

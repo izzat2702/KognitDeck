@@ -168,7 +168,7 @@ export default function PricingPage() {
                 },
                 {
                   q: "Do you offer a free trial for paid plans?",
-                  a: "Our Free plan lets you try KognitDeck with no cost. If you upgrade and aren't satisfied within 7 days, contact us for a full refund — no questions asked.",
+                  a: "Our Free plan lets you try KognitDeck with no cost. If you upgrade and aren't satisfied within 7 days, contact us for a full refund, no questions asked.",
                 },
                 {
                   q: "What's the difference between monthly and annual billing?",

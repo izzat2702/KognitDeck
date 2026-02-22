@@ -82,7 +82,7 @@ export function Pricing({
       return;
     }
 
-    // Already on this plan — just go to dashboard
+    // Already on this plan: just go to dashboard
     if (session?.user?.plan === planKey) {
       router.push("/dashboard");
       return;

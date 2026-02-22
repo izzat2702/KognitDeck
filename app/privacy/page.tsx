@@ -109,15 +109,15 @@ export default function PrivacyPage() {
               <p className="mb-3">We use the following third-party services that may receive your data:</p>
               <ul className="list-disc pl-6 space-y-2">
                 <li>
-                  <strong>Stripe</strong> — Payment processing for Pro and Premium subscriptions.
+                  <strong>Stripe</strong>: Payment processing for Pro and Premium subscriptions.
                   PCI-DSS compliant. KognitDeck never stores raw card data.
                 </li>
                 <li>
-                  <strong>Google OAuth</strong> — Optional sign-in method. Google provides us with your
+                  <strong>Google OAuth</strong>: Optional sign-in method. Google provides us with your
                   name, email, and profile picture per the OAuth consent you approve.
                 </li>
                 <li>
-                  <strong>Anthropic Claude API</strong> — AI flashcard generation. Text you submit for
+                  <strong>Anthropic Claude API</strong>: AI flashcard generation. Text you submit for
                   card generation is processed by Anthropic&apos;s servers. We do not send personally
                   identifiable information to the AI API beyond the content you provide for generation.
                 </li>

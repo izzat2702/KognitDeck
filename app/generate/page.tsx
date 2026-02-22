@@ -48,7 +48,7 @@ async function extractPdfText(
   // Dynamic import keeps pdfjs-dist out of the initial JS bundle
   const pdfjsLib = await import("pdfjs-dist");
 
-  // Point the worker at a CDN copy that matches the installed version —
+  // Point the worker at a CDN copy that matches the installed version;
   // this avoids Next.js webpack complications with worker files.
   pdfjsLib.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@${pdfjsLib.version}/build/pdf.worker.min.mjs`;
 
@@ -292,7 +292,7 @@ export default function GeneratePage() {
               </CardHeader>
               <CardContent>
                 <Input
-                  placeholder="e.g., Biology Chapter 5 — Cell Division"
+                  placeholder="e.g., Biology Chapter 5: Cell Division"
                   value={setName}
                   onChange={(e) => setSetName(e.target.value)}
                   className="h-11"
@@ -344,7 +344,7 @@ export default function GeneratePage() {
 
                   <TabsContent value="pdf" className="mt-4">
                     {pdfText ? (
-                      /* Success state — PDF parsed */
+                      /* Success state: PDF parsed */
                       <div className="border-2 border-green-200 rounded-xl p-5 bg-green-50 space-y-3">
                         <div className="flex items-start justify-between gap-3">
                           <div className="flex items-start gap-3 min-w-0">
@@ -375,7 +375,7 @@ export default function GeneratePage() {
                         </div>
 
                         <p className="text-xs text-green-700 font-medium">
-                          ✓ Text extracted successfully — ready to generate flashcards
+                          ✓ Text extracted successfully. Ready to generate flashcards.
                         </p>
 
                         {/* Plan limit info */}
@@ -384,7 +384,7 @@ export default function GeneratePage() {
                             <span className="font-semibold capitalize">{plan}</span> plan limit:{" "}
                             <span className="font-semibold">{pdfWordLimit.toLocaleString()} words</span>
                             {pdfTruncated && (
-                              <span className="text-amber-600"> — limit reached, PDF had more content</span>
+                              <span className="text-amber-600"> (limit reached, PDF had more content)</span>
                             )}
                           </p>
                           {pdfTruncated && nextPlanLabel && (
@@ -463,7 +463,7 @@ export default function GeneratePage() {
                       <div className="border-2 border-dashed border-blue-200 rounded-xl p-8 text-center bg-blue-50">
                         <Lock className="w-8 h-8 text-blue-300 mx-auto mb-3" />
                         <p className="text-sm font-semibold text-gray-900 mb-2">
-                          Topic Generation — Premium Only
+                          Topic Generation (Premium Only)
                         </p>
                         <p className="text-xs text-gray-500 mb-4">
                           Let AI generate flashcards on any topic from scratch, without any input material.

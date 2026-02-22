@@ -144,7 +144,7 @@ export default function BillingPage() {
               <Link href="/pricing">
                 <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white gap-2">
                   <Zap className="w-4 h-4" />
-                  Upgrade to Pro — $9/month
+                  Upgrade to Pro ($9/month)
                 </Button>
               </Link>
             ) : (

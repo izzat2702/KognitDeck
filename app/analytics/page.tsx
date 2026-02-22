@@ -222,7 +222,7 @@ export default function AnalyticsPage() {
                 <CardContent>
                   {pieData.every((d) => d.value === 0) ? (
                     <div className="h-48 flex items-center justify-center text-gray-400 text-sm">
-                      No data yet — start studying!
+                      No data yet. Start studying!
                     </div>
                   ) : (
                     <ResponsiveContainer width="100%" height={220}>

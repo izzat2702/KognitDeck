@@ -20,15 +20,15 @@ const MOCK_QA_PAIRS: Array<{ front: string; back: string }> = [
   // Biology
   {
     front: "What is the powerhouse of the cell?",
-    back: "The mitochondria — organelles that generate ATP through cellular respiration, providing energy for cellular processes.",
+    back: "The mitochondria are organelles that generate ATP through cellular respiration, providing energy for cellular processes.",
   },
   {
     front: "What is the process by which plants make food?",
-    back: "Photosynthesis — plants use sunlight, water, and carbon dioxide to produce glucose and oxygen via chlorophyll in chloroplasts.",
+    back: "Photosynthesis is the process by which plants use sunlight, water, and carbon dioxide to produce glucose and oxygen via chlorophyll in chloroplasts.",
   },
   {
     front: "What is DNA?",
-    back: "Deoxyribonucleic acid — a double-helix molecule that carries genetic information in all living organisms and many viruses.",
+    back: "Deoxyribonucleic acid is a double-helix molecule that carries genetic information in all living organisms and many viruses.",
   },
   {
     front: "What is osmosis?",
@@ -45,7 +45,7 @@ const MOCK_QA_PAIRS: Array<{ front: string; back: string }> = [
   },
   {
     front: "What is Avogadro's number?",
-    back: "6.022 × 10²³ — the number of atoms, molecules, or particles in one mole of a substance.",
+    back: "6.022 × 10²³, the number of atoms, molecules, or particles in one mole of a substance.",
   },
   {
     front: "What is an isotope?",
@@ -74,7 +74,7 @@ const MOCK_QA_PAIRS: Array<{ front: string; back: string }> = [
   },
   {
     front: "What is Ohm's Law?",
-    back: "V = IR — the voltage (V) across a conductor equals the current (I) flowing through it multiplied by its resistance (R).",
+    back: "V = IR, where the voltage (V) across a conductor equals the current (I) flowing through it multiplied by its resistance (R).",
   },
   {
     front: "What is the electromagnetic spectrum?",
@@ -87,7 +87,7 @@ const MOCK_QA_PAIRS: Array<{ front: string; back: string }> = [
   },
   {
     front: "What is a derivative in calculus?",
-    back: "A measure of how a function changes as its input changes — the instantaneous rate of change or slope of the tangent line at a point.",
+    back: "A measure of how a function changes as its input changes, specifically the instantaneous rate of change or slope of the tangent line at a point.",
   },
   {
     front: "Define a prime number.",
@@ -99,12 +99,12 @@ const MOCK_QA_PAIRS: Array<{ front: string; back: string }> = [
   },
   {
     front: "What is Euler's identity?",
-    back: "e^(iπ) + 1 = 0 — considered the most beautiful equation in mathematics, linking five fundamental constants: e, i, π, 1, and 0.",
+    back: "e^(iπ) + 1 = 0, considered the most beautiful equation in mathematics, linking five fundamental constants: e, i, π, 1, and 0.",
   },
   // History
   {
     front: "When did World War II end?",
-    back: "World War II ended in 1945 — in Europe on May 8 (V-E Day) and in the Pacific on September 2 (V-J Day) after Japan's formal surrender.",
+    back: "World War II ended in 1945: in Europe on May 8 (V-E Day) and in the Pacific on September 2 (V-J Day) after Japan's formal surrender.",
   },
   {
     front: "Who was the first President of the United States?",
@@ -129,7 +129,7 @@ const MOCK_QA_PAIRS: Array<{ front: string; back: string }> = [
   },
   {
     front: "What is the difference between a stack and a queue?",
-    back: "A stack is LIFO (Last In, First Out) — the last element added is the first removed. A queue is FIFO (First In, First Out) — elements are removed in the order they were added.",
+    back: "A stack is LIFO (Last In, First Out), meaning the last element added is the first removed. A queue is FIFO (First In, First Out), so elements are removed in the order they were added.",
   },
   {
     front: "What is recursion?",
@@ -137,7 +137,7 @@ const MOCK_QA_PAIRS: Array<{ front: string; back: string }> = [
   },
   {
     front: "What is object-oriented programming?",
-    back: "A paradigm based on 'objects' — instances of classes that encapsulate data (attributes) and behavior (methods), promoting reusability and modularity.",
+    back: "A paradigm based on 'objects', which are instances of classes that encapsulate data (attributes) and behavior (methods), promoting reusability and modularity.",
   },
   {
     front: "What is a binary search algorithm?",

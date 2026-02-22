@@ -9,7 +9,7 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: {
-    default: "KognitDeck — AI-Powered Flashcard Generator",
+    default: "KognitDeck: AI-Powered Flashcard Generator",
     template: "%s | KognitDeck",
   },
   description:
@@ -29,7 +29,7 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_US",
     url: "https://kognitdeck.app",
-    title: "KognitDeck — AI-Powered Flashcard Generator",
+    title: "KognitDeck: AI-Powered Flashcard Generator",
     description:
       "Generate flashcards from your notes, PDFs, or any topic in seconds.",
     siteName: "KognitDeck",

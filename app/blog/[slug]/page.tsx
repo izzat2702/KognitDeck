@@ -23,7 +23,7 @@ function SpacedRepetitionPost() {
       </p>
       <p className="text-gray-700 leading-relaxed mb-4">
         This sounds discouraging, but Ebbinghaus also discovered the solution: each time you
-        successfully recall a piece of information, the forgetting curve resets — and it resets at a
+        successfully recall a piece of information, the forgetting curve resets, and it resets at a
         shallower slope. In other words, reviewing material makes it stick longer and longer with
         each subsequent review. This is the foundation of spaced repetition.
       </p>
@@ -31,7 +31,7 @@ function SpacedRepetitionPost() {
       <h2 className="text-2xl font-bold text-gray-900 mt-8 mb-4">How Spaced Repetition Works</h2>
       <p className="text-gray-700 leading-relaxed mb-4">
         Spaced repetition systems (SRS) schedule reviews algorithmically. When you answer a
-        flashcard correctly, the algorithm pushes the next review further into the future — perhaps
+        flashcard correctly, the algorithm pushes the next review further into the future, perhaps
         in three days, then a week, then a month. When you answer incorrectly, the interval resets
         to a shorter period. The result is that you spend most of your review time on the cards you
         find hardest, and almost no time re-reviewing material you already know well.
@@ -45,11 +45,11 @@ function SpacedRepetitionPost() {
 
       <h2 className="text-2xl font-bold text-gray-900 mt-8 mb-4">Why Flashcards Are the Perfect Vehicle</h2>
       <p className="text-gray-700 leading-relaxed mb-4">
-        Flashcards enforce active recall — the process of retrieving information from memory rather
-        than passively re-reading it. Research consistently shows active recall is far more effective
-        than passive review. A 2011 study published in Science found that students who used retrieval
-        practice (i.e., testing themselves) retained 50 percent more information one week later than
-        students who simply re-studied the same material.
+        Flashcards enforce active recall, which is the process of retrieving information from memory
+        rather than passively re-reading it. Research consistently shows active recall is far more
+        effective than passive review. A 2011 study published in Science found that students who used
+        retrieval practice (i.e., testing themselves) retained 50 percent more information one week
+        later than students who simply re-studied the same material.
       </p>
       <p className="text-gray-700 leading-relaxed mb-4">
         The combination of active recall and spaced repetition is particularly powerful. Key
@@ -84,7 +84,7 @@ function AiInEducationPost() {
     <article className="prose prose-gray max-w-none">
       <h2 className="text-2xl font-bold text-gray-900 mt-8 mb-4">1. Personalised Learning Paths</h2>
       <p className="text-gray-700 leading-relaxed mb-4">
-        AI platforms now analyse a student's performance across thousands of data points to generate
+        AI platforms now analyse a student&apos;s performance across thousands of data points to generate
         a unique learning path. Instead of following a fixed curriculum, students are guided through
         content at a pace and order that matches their existing knowledge gaps. Platforms like
         KognitDeck use this data to surface the most valuable flashcard decks for each individual.
@@ -92,7 +92,7 @@ function AiInEducationPost() {
 
       <h2 className="text-2xl font-bold text-gray-900 mt-8 mb-4">2. Instant Feedback and Assessment</h2>
       <p className="text-gray-700 leading-relaxed mb-4">
-        Traditional assessment cycles — submit an essay, wait two weeks for a grade — are being
+        Traditional assessment cycles (submit an essay, wait two weeks for a grade) are being
         replaced by real-time feedback loops. AI can now evaluate open-ended responses, identify
         misconceptions, and suggest targeted resources within seconds of submission. Students no
         longer have to wait to find out where they went wrong.
@@ -101,10 +101,10 @@ function AiInEducationPost() {
       <h2 className="text-2xl font-bold text-gray-900 mt-8 mb-4">3. Automated Content Generation</h2>
       <p className="text-gray-700 leading-relaxed mb-4">
         Perhaps the most visible change in 2026 is the rise of AI-generated study materials.
-        Students and teachers can now transform raw source material — lecture slides, textbooks,
-        research papers — into comprehensive flashcard decks, practice quizzes, and summaries in
-        under a minute. KognitDeck processes uploaded PDFs and returns a full, review-ready deck with
-        no manual effort required.
+        Students and teachers can now transform raw source material, including lecture slides,
+        textbooks, and research papers, into comprehensive flashcard decks, practice quizzes, and
+        summaries in under a minute. KognitDeck processes uploaded PDFs and returns a full,
+        review-ready deck with no manual effort required.
       </p>
 
       <h2 className="text-2xl font-bold text-gray-900 mt-8 mb-4">4. Accessibility and Language Support</h2>
@@ -119,15 +119,15 @@ function AiInEducationPost() {
       <p className="text-gray-700 leading-relaxed mb-4">
         AI tutors are now capable of sustained, pedagogically sound conversations with students.
         They can explain concepts from multiple angles, identify the root cause of a misconception,
-        and adapt their explanation based on the student's response. Early studies suggest AI
+        and adapt their explanation based on the student&apos;s response. Early studies suggest AI
         tutoring delivers learning outcomes comparable to one-on-one human tutoring.
       </p>
 
       <h2 className="text-2xl font-bold text-gray-900 mt-8 mb-4">Looking Ahead</h2>
       <p className="text-gray-700 leading-relaxed mb-4">
-        The remaining five transformations — collaborative AI workspaces, predictive dropout
+        The remaining five transformations (collaborative AI workspaces, predictive dropout
         detection, automated curriculum alignment, multimodal learning tools, and AI-powered
-        teacher support — are each reshaping a different layer of the educational system. The
+        teacher support) are each reshaping a different layer of the educational system. The
         common thread is a shift from one-size-fits-all instruction to deeply personalised,
         data-driven learning experiences. 2026 is not the beginning of this shift; it is the year
         it becomes mainstream.
@@ -148,14 +148,14 @@ function StudySmartGuidePost() {
     <article className="prose prose-gray max-w-none">
       <h2 className="text-2xl font-bold text-gray-900 mt-8 mb-4">The Problem with Re-Reading</h2>
       <p className="text-gray-700 leading-relaxed mb-4">
-        When most students sit down to study, they open their notes and read through them — once,
+        When most students sit down to study, they open their notes and read through them once,
         twice, sometimes three times. This feels productive. The material looks familiar. Confidence
         grows. But familiarity is not the same as recall. When exam day arrives and no prompts are
         available, that familiar material is often impossible to retrieve.
       </p>
       <p className="text-gray-700 leading-relaxed mb-4">
         Cognitive psychologists call this the fluency illusion: passive re-reading creates a false
-        sense of mastery. The solution is to replace passive study with active retrieval — forcing
+        sense of mastery. The solution is to replace passive study with active retrieval, forcing
         yourself to recall information without looking at your notes. This is uncomfortable at first,
         but the discomfort is a sign that genuine learning is occurring.
       </p>
@@ -163,8 +163,8 @@ function StudySmartGuidePost() {
       <h2 className="text-2xl font-bold text-gray-900 mt-8 mb-4">Technique 1: Active Recall with Flashcards</h2>
       <p className="text-gray-700 leading-relaxed mb-4">
         Flashcards are the simplest active recall tool. Each card poses a question; you attempt to
-        answer from memory before flipping to check. The key is to actually attempt the recall —
-        not to flip the card after two seconds because the answer feels familiar. Sit with the
+        answer from memory before flipping to check. The key is to actually attempt the recall rather
+        than flip the card after two seconds because the answer feels familiar. Sit with the
         question, retrieve as much as you can, then evaluate your answer honestly.
       </p>
       <p className="text-gray-700 leading-relaxed mb-4">
@@ -176,10 +176,10 @@ function StudySmartGuidePost() {
       <h2 className="text-2xl font-bold text-gray-900 mt-8 mb-4">Technique 2: Interleaved Practice</h2>
       <p className="text-gray-700 leading-relaxed mb-4">
         Most students study one topic at a time: an hour of biology, then an hour of history, then
-        an hour of maths. Research shows that mixing topics within a single session — interleaving —
-        produces better long-term retention, even though it feels harder in the moment. Difficulty
-        is not a sign that the technique is failing; it is a sign that the brain is working harder
-        to retrieve and organise information.
+        an hour of maths. Research shows that mixing topics within a single session, a technique
+        called interleaving, produces better long-term retention, even though it feels harder in the
+        moment. Difficulty is not a sign that the technique is failing; it is a sign that the brain
+        is working harder to retrieve and organise information.
       </p>
 
       <h2 className="text-2xl font-bold text-gray-900 mt-8 mb-4">Technique 3: The Pomodoro Technique</h2>
@@ -198,7 +198,7 @@ function StudySmartGuidePost() {
         <li>Start each session with a 10-minute spaced repetition review in KognitDeck</li>
         <li>Use Pomodoro timers to structure the rest of your session into focused sprints</li>
         <li>Interleave two or three subjects within each sprint rather than blocking by topic</li>
-        <li>End every session by writing a brief summary from memory — no notes allowed</li>
+        <li>End every session by writing a brief summary from memory with no notes allowed</li>
         <li>Review that summary the following morning before opening any study material</li>
       </ul>
       <p className="text-gray-700 leading-relaxed mb-4">
@@ -245,7 +245,7 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
       <div className="min-h-screen flex flex-col bg-white">
         <Navbar />
         <main className="flex-1 flex flex-col items-center justify-center py-24 px-6">
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">404 — Post Not Found</h1>
+          <h1 className="text-4xl font-bold text-gray-900 mb-4">404: Post Not Found</h1>
           <p className="text-gray-600 mb-8">
             The article you are looking for does not exist or has been moved.
           </p>

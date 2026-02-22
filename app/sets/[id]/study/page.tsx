@@ -233,7 +233,7 @@ export default function StudyPage() {
             <div className="bg-gray-50 rounded-xl p-4 mb-6 text-left space-y-2">
               <p className="text-sm font-semibold text-gray-900 mb-3">What you&apos;ll get with Pro:</p>
               {[
-                "Unlimited quiz mode — no card limits",
+                "Unlimited quiz mode with no card limits",
                 "MCQ format support",
                 "Full analytics dashboard",
                 "250 cards generated per month",
@@ -253,7 +253,7 @@ export default function StudyPage() {
               <Link href="/pricing" className="flex-1">
                 <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white gap-1.5">
                   <Zap className="w-4 h-4" />
-                  Upgrade — $9/mo
+                  Upgrade to Pro ($9/mo)
                 </Button>
               </Link>
             </div>

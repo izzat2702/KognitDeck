@@ -151,7 +151,7 @@ export default function DashboardPage() {
                 {
                   icon: <FileText className="w-5 h-5 text-blue-600" />,
                   title: "Paste Your Notes",
-                  desc: "Copy-paste any text — lecture notes, textbook passages, or articles.",
+                  desc: "Copy-paste any text, including lecture notes, textbook passages, or articles.",
                 },
                 {
                   icon: <Upload className="w-5 h-5 text-blue-600" />,

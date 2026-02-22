@@ -21,7 +21,7 @@ export function FeaturesSectionWithHoverEffects() {
     {
       title: "PDF Upload Support",
       description:
-        "Upload lecture slides, textbook chapters, or research papers — KognitDeck extracts and converts the content into study cards.",
+        "Upload lecture slides, textbook chapters, or research papers. KognitDeck extracts and converts the content into study cards.",
       icon: <IconFileUpload />,
     },
     {
