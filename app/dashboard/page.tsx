@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
@@ -24,6 +24,8 @@ import {
   FileText,
   Brain,
   Upload,
+  CheckCircle,
+  X,
 } from "lucide-react";
 import { getPlanLimits } from "@/lib/utils";
 
@@ -46,11 +48,15 @@ interface UserData {
 export default function DashboardPage() {
   const { data: session, status } = useSession();
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [sets, setSets] = useState<FlashcardSet[]>([]);
   const [userData, setUserData] = useState<UserData | null>(null);
   const [loading, setLoading] = useState(true);
   const [showOnboarding, setShowOnboarding] = useState(false);
   const [deletingId, setDeletingId] = useState<string | null>(null);
+  const [showUpgradeBanner, setShowUpgradeBanner] = useState(
+    searchParams.get("upgraded") === "true"
+  );
 
   useEffect(() => {
     if (status === "unauthenticated") router.push("/auth/signin");
@@ -104,6 +110,29 @@ export default function DashboardPage() {
   return (
     <div className="min-h-screen flex flex-col bg-gray-50">
       <Navbar />
+
+      {/* Upgrade success banner */}
+      {showUpgradeBanner && (
+        <div className="bg-green-600 text-white px-4 py-3">
+          <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
+            <div className="flex items-center gap-3">
+              <CheckCircle className="w-5 h-5 flex-shrink-0" />
+              <p className="text-sm font-medium">
+                🎉 Your plan has been upgraded! Welcome to{" "}
+                <span className="font-bold capitalize">{userData?.plan ?? "your new plan"}</span>.
+                Enjoy your new features.
+              </p>
+            </div>
+            <button
+              onClick={() => setShowUpgradeBanner(false)}
+              className="p-1 rounded hover:bg-green-700 transition-colors flex-shrink-0"
+              aria-label="Dismiss"
+            >
+              <X className="w-4 h-4" />
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* Onboarding modal */}
       <Dialog open={showOnboarding} onOpenChange={setShowOnboarding}>

@@ -48,6 +48,24 @@ export default function BillingPage() {
   const router = useRouter();
   const [userData, setUserData] = useState<UserData | null>(null);
   const [loading, setLoading] = useState(true);
+  const [portalLoading, setPortalLoading] = useState(false);
+
+  async function openStripePortal() {
+    setPortalLoading(true);
+    try {
+      const res = await fetch("/api/stripe/portal", { method: "POST" });
+      const data = await res.json();
+      if (data.url) {
+        window.location.href = data.url;
+      } else {
+        alert(data.error ?? "Could not open billing portal. Please try again.");
+      }
+    } catch {
+      alert("Something went wrong. Please try again.");
+    } finally {
+      setPortalLoading(false);
+    }
+  }
 
   useEffect(() => {
     if (status === "unauthenticated") router.push("/auth/signin");
@@ -131,11 +149,21 @@ export default function BillingPage() {
               </Link>
             ) : (
               <div className="flex gap-3">
-                <Button variant="outline" className="flex-1 gap-2">
+                <Button
+                  variant="outline"
+                  className="flex-1 gap-2"
+                  onClick={openStripePortal}
+                  disabled={portalLoading}
+                >
                   <CreditCard className="w-4 h-4" />
-                  Manage via Stripe Portal
+                  {portalLoading ? "Opening…" : "Manage via Stripe Portal"}
                 </Button>
-                <Button variant="outline" className="text-red-600 border-red-200 hover:bg-red-50">
+                <Button
+                  variant="outline"
+                  className="text-red-600 border-red-200 hover:bg-red-50"
+                  onClick={openStripePortal}
+                  disabled={portalLoading}
+                >
                   Cancel Plan
                 </Button>
               </div>
