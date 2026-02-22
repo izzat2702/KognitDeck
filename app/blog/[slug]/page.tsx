@@ -295,7 +295,7 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
             </div>
             <Link href="/auth/signup">
               <Button className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2">
-                Get Started Free
+                Get Started
               </Button>
             </Link>
           </div>

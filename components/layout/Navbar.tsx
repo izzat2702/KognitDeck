@@ -164,7 +164,7 @@ export function Navbar() {
                     size="sm"
                     className="bg-blue-600 hover:bg-blue-700 text-white"
                   >
-                    Get Started Free
+                    Get Started
                   </Button>
                 </Link>
               </>
@@ -231,7 +231,7 @@ export function Navbar() {
                     size="sm"
                     className="w-full bg-blue-600 hover:bg-blue-700 text-white"
                   >
-                    Get Started Free
+                    Get Started
                   </Button>
                 </Link>
               </>
