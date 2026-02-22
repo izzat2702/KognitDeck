@@ -1,12 +1,14 @@
 import { NextAuthOptions } from "next-auth";
-import { PrismaAdapter } from "@auth/prisma-adapter";
+import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { prisma } from "@/lib/prisma";
 import { compare, hash } from "bcryptjs";
 
 export const authOptions: NextAuthOptions = {
-  adapter: PrismaAdapter(prisma) as NextAuthOptions["adapter"],
+  // @next-auth/prisma-adapter is the correct adapter for next-auth v4.
+  // (@auth/prisma-adapter is for Auth.js v5 and breaks the OAuth callback in v4.)
+  adapter: PrismaAdapter(prisma),
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID ?? "",
@@ -46,29 +48,47 @@ export const authOptions: NextAuthOptions = {
   },
   callbacks: {
     async jwt({ token, user, trigger, session }) {
+      // On first sign-in `user` is populated by the adapter.
       if (user) {
         token.id = user.id;
+        // Seed plan/onboarding from the DB user so we don't need an extra
+        // round-trip on the very first request.
+        token.plan = (user as { plan?: string }).plan ?? "free";
+        token.onboardingCompleted =
+          (user as { onboardingCompleted?: boolean }).onboardingCompleted ?? false;
       }
+
       if (trigger === "update" && session) {
         return { ...token, ...session.user };
       }
+
+      // Refresh plan/onboarding on subsequent requests.
       if (token.id) {
-        const dbUser = await prisma.user.findUnique({
-          where: { id: token.id as string },
-          select: { plan: true, id: true, onboardingCompleted: true },
-        });
-        if (dbUser) {
-          token.plan = dbUser.plan;
-          token.onboardingCompleted = dbUser.onboardingCompleted;
+        try {
+          const dbUser = await prisma.user.findUnique({
+            where: { id: token.id as string },
+            select: { plan: true, onboardingCompleted: true },
+          });
+          if (dbUser) {
+            token.plan = dbUser.plan;
+            token.onboardingCompleted = dbUser.onboardingCompleted;
+          }
+        } catch {
+          // DB temporarily unavailable — keep the values already on the token
+          // so the session callback doesn't receive undefined and crash.
+          token.plan = token.plan ?? "free";
+          token.onboardingCompleted = token.onboardingCompleted ?? false;
         }
       }
+
       return token;
     },
     async session({ session, token }) {
       if (token && session.user) {
         session.user.id = token.id as string;
-        session.user.plan = token.plan as string;
-        session.user.onboardingCompleted = token.onboardingCompleted as boolean;
+        session.user.plan = (token.plan as string) ?? "free";
+        session.user.onboardingCompleted =
+          (token.onboardingCompleted as boolean) ?? false;
       }
       return session;
     },
