@@ -6,10 +6,20 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY ?? "", {
   apiVersion: "2025-02-24.acacia",
 });
 
-// Map a Stripe price ID back to a plan name
+// Map a Stripe price ID back to a plan name.
+// Both the monthly and annual price IDs map to the same plan — only the
+// billing interval differs, which Stripe handles on its side.
 function planFromPriceId(priceId: string): "pro" | "premium" | "free" {
-  if (priceId === process.env.STRIPE_PRO_PRICE_ID) return "pro";
-  if (priceId === process.env.STRIPE_PREMIUM_PRICE_ID) return "premium";
+  if (
+    priceId === process.env.STRIPE_PRO_PRICE_ID ||
+    priceId === process.env.STRIPE_PRO_ANNUAL_PRICE_ID
+  )
+    return "pro";
+  if (
+    priceId === process.env.STRIPE_PREMIUM_PRICE_ID ||
+    priceId === process.env.STRIPE_PREMIUM_ANNUAL_PRICE_ID
+  )
+    return "premium";
   return "free";
 }
 

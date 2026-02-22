@@ -8,9 +8,17 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY ?? "", {
   apiVersion: "2025-02-24.acacia",
 });
 
-const PRICE_IDS: Record<string, string | undefined> = {
-  pro: process.env.STRIPE_PRO_PRICE_ID,
-  premium: process.env.STRIPE_PREMIUM_PRICE_ID,
+// Nested by plan → billing period so the correct Stripe price ID is used
+// depending on whether the user selected Monthly or Annual billing.
+const PRICE_IDS: Record<string, Record<string, string | undefined>> = {
+  pro: {
+    monthly: process.env.STRIPE_PRO_PRICE_ID,
+    annual: process.env.STRIPE_PRO_ANNUAL_PRICE_ID,
+  },
+  premium: {
+    monthly: process.env.STRIPE_PREMIUM_PRICE_ID,
+    annual: process.env.STRIPE_PREMIUM_ANNUAL_PRICE_ID,
+  },
 };
 
 export async function POST(req: NextRequest) {
@@ -19,8 +27,8 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const { plan } = await req.json();
-  const priceId = PRICE_IDS[plan];
+  const { plan, billing = "monthly" } = await req.json();
+  const priceId = PRICE_IDS[plan]?.[billing];
 
   if (!priceId || priceId === "placeholder") {
     return NextResponse.json(
