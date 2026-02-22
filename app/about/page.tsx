@@ -1,3 +1,6 @@
+"use client";
+
+import { useSession } from "next-auth/react";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { Button } from "@/components/ui/button";
@@ -6,6 +9,9 @@ import { GraduationCap, BookOpen, Briefcase, Zap, Users } from "lucide-react";
 import Link from "next/link";
 
 export default function AboutPage() {
+  const { data: session } = useSession();
+  const isSignedIn = !!session?.user;
+
   const values = [
     {
       icon: <BookOpen className="h-8 w-8 text-blue-600" />,
@@ -23,7 +29,7 @@ export default function AboutPage() {
       icon: <Users className="h-8 w-8 text-blue-600" />,
       title: "Student-Built",
       description:
-        "KognitDeck was created by students frustrated with existing tools. Every design decision is informed by real learning pain points, not corporate assumptions.",
+        "KognitDeck was created by a student frustrated with existing tools. Every design decision is informed by real learning pain points, not corporate assumptions.",
     },
   ];
 
@@ -67,19 +73,6 @@ export default function AboutPage() {
       description:
         "Preparing for a certification or learning a new skill? KognitDeck helps working adults retain complex information efficiently.",
     },
-  ];
-
-  const team = [
-    { name: "Alex Rivera", role: "Co-Founder & CEO", initials: "AR" },
-    { name: "Jordan Kim", role: "Co-Founder & CTO", initials: "JK" },
-    { name: "Sam Okafor", role: "Head of AI", initials: "SO" },
-    { name: "Maya Patel", role: "Head of Design", initials: "MP" },
-  ];
-
-  const stats = [
-    { value: "50,000+", label: "Active Students" },
-    { value: "2M+", label: "Cards Generated" },
-    { value: "98%", label: "Satisfaction Rate" },
   ];
 
   return (
@@ -169,52 +162,52 @@ export default function AboutPage() {
         </div>
       </section>
 
+      {/* Founder quote */}
       <section className="py-16 px-6 bg-blue-600">
-        <div className="max-w-4xl mx-auto">
-          <div className="grid grid-cols-3 gap-8 text-center">
-            {stats.map((s) => (
-              <div key={s.label}>
-                <p className="text-4xl font-bold text-white mb-2">{s.value}</p>
-                <p className="text-blue-100 text-sm font-medium">{s.label}</p>
-              </div>
-            ))}
-          </div>
+        <div className="max-w-3xl mx-auto text-center">
+          <p className="text-xl md:text-2xl text-white leading-relaxed mb-6 font-medium italic">
+            &ldquo;I built KognitDeck because I was spending hours every week making flashcards by
+            hand. As a student, I knew AI could change that — so I built the tool I always wished
+            I had.&rdquo;
+          </p>
+          <p className="text-blue-100 font-semibold">Izzat Zulqarnain</p>
+          <p className="text-blue-300 text-sm mt-1">Founder of KognitDeck</p>
         </div>
       </section>
 
+      {/* Meet the Founder */}
       <section className="py-20 px-6 bg-white">
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-14">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">Meet the Team</h2>
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">Meet the Founder</h2>
             <p className="text-gray-600 max-w-2xl mx-auto">
-              A small, passionate crew of engineers, educators, and designers united by one goal:
-              making learning more effective.
+              KognitDeck is built and maintained by a solo developer passionate about making
+              learning more effective for everyone.
             </p>
           </div>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-            {team.map((member) => (
-              <div key={member.name} className="flex flex-col items-center text-center">
-                <div className="w-20 h-20 rounded-full bg-blue-100 text-blue-700 text-xl font-bold flex items-center justify-center mb-4 shadow-sm">
-                  {member.initials}
-                </div>
-                <h3 className="text-base font-semibold text-gray-900">{member.name}</h3>
-                <p className="text-sm text-gray-500 mt-1">{member.role}</p>
+          <div className="flex justify-center">
+            <div className="flex flex-col items-center text-center">
+              <div className="w-24 h-24 rounded-full bg-blue-100 text-blue-700 text-2xl font-bold flex items-center justify-center mb-4 shadow-sm">
+                IZ
               </div>
-            ))}
+              <h3 className="text-base font-semibold text-gray-900">Izzat Zulqarnain</h3>
+              <p className="text-sm text-gray-500 mt-1">Founder &amp; Developer</p>
+            </div>
           </div>
         </div>
       </section>
 
+      {/* CTA */}
       <section className="py-20 px-6 bg-gray-50 text-center">
         <div className="max-w-2xl mx-auto">
           <h2 className="text-3xl font-bold text-gray-900 mb-4">Ready to study smarter?</h2>
           <p className="text-gray-600 mb-8">
-            Join over 50,000 learners already using KognitDeck to master their subjects faster.
+            Start for free — no credit card required.
           </p>
           <div className="flex gap-4 justify-center flex-wrap">
-            <Link href="/auth/signup">
+            <Link href={isSignedIn ? "/dashboard" : "/auth/signup"}>
               <Button className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 text-base">
-                Get Started Free
+                {isSignedIn ? "Go to Dashboard" : "Get Started"}
               </Button>
             </Link>
             <Link href="/contact">

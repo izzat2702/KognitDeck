@@ -47,6 +47,21 @@ export const authOptions: NextAuthOptions = {
     error: "/auth/signin",
   },
   callbacks: {
+    async redirect({ url, baseUrl }) {
+      // After any OAuth sign-in, never land back on an auth page.
+      // Resolve the path whether the URL is absolute or relative.
+      const path = url.startsWith(baseUrl)
+        ? url.slice(baseUrl.length)
+        : url.startsWith("/")
+        ? url
+        : null;
+      if (path?.startsWith("/auth/")) {
+        return `${baseUrl}/dashboard`;
+      }
+      if (url.startsWith(baseUrl)) return url;
+      if (url.startsWith("/")) return `${baseUrl}${url}`;
+      return `${baseUrl}/dashboard`;
+    },
     async jwt({ token, user, trigger, session }) {
       // On first sign-in `user` is populated by the adapter.
       if (user) {
