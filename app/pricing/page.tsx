@@ -19,7 +19,7 @@ const kognitdeckPlans = [
       "Basic flashcard management",
     ],
     description: "No credit card required. Free forever.",
-    buttonText: "Get Started Free",
+    buttonText: "Get Started",
     href: "/auth/signup",
     isPopular: false,
   },

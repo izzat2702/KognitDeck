@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { LandingCtaButton } from "@/components/ui/landing-cta-button";
 import Link from "next/link";
 import { Check, FileText, Brain, BookOpen, Star, Zap, Shield } from "lucide-react";
 
@@ -24,7 +25,7 @@ const landingPlans = [
       "Basic flashcard management",
     ],
     description: "No credit card required. Free forever.",
-    buttonText: "Get Started Free",
+    buttonText: "Get Started",
     href: "/auth/signup",
     isPopular: false,
   },
@@ -323,11 +324,7 @@ export default function LandingPage() {
               Start free — no credit card required.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link href="/auth/signup">
-                <Button size="lg" className="bg-white text-blue-600 hover:bg-blue-50 px-8 h-12 font-semibold">
-                  Get Started Free
-                </Button>
-              </Link>
+              <LandingCtaButton />
               <Link href="/pricing">
                 <Button size="lg" variant="outline" className="bg-transparent text-white border-white border-2 hover:bg-white hover:text-blue-600 px-8 h-12 font-semibold transition-colors">
                   View Plans

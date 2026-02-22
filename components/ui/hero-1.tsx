@@ -6,8 +6,11 @@ import { Badge } from "@/components/ui/badge";
 import { ArrowRight, Sparkles } from "lucide-react";
 import { AnimatedGridPattern } from "@/components/ui/animated-grid-pattern";
 import { cn } from "@/lib/utils";
+import { useSession } from "next-auth/react";
 
 export function Hero() {
+  const { data: session } = useSession();
+  const isSignedIn = !!session?.user;
   return (
     <div className="relative min-h-[90vh] flex items-center justify-center overflow-hidden bg-white">
       {/* Animated grid background */}
@@ -78,12 +81,12 @@ export function Hero() {
             opacity: 0,
           }}
         >
-          <Link href="/auth/signup">
+          <Link href={isSignedIn ? "/dashboard" : "/auth/signup"}>
             <Button
               size="lg"
               className="bg-blue-600 hover:bg-blue-700 text-white px-8 h-12 text-base font-semibold rounded-lg shadow-lg shadow-blue-200 transition-all hover:shadow-blue-300 hover:scale-105"
             >
-              Get Started Free
+              {isSignedIn ? "Go to Dashboard" : "Get Started"}
               <ArrowRight className="ml-2 h-4 w-4" />
             </Button>
           </Link>
