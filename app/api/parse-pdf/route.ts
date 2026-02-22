@@ -3,9 +3,12 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { PDFParse } from "pdf-parse";
 
-const TIMEOUT_MS = 15_000; // 15 seconds
-const MAX_PAGES = 30;       // parse at most 30 pages — plenty for flashcard generation
-const MAX_WORDS = 10_000;   // truncate to 10k words after extraction
+// Tell Vercel this function may use up to 9 s (free plan hard-limit is 10 s).
+export const maxDuration = 9;
+
+const TIMEOUT_MS = 8_000;  // 8 s — leaves a 1 s buffer before Vercel cuts the function
+const MAX_PAGES = 10;      // first 10 pages is the main speed lever (pdfjs renders per-page)
+const MAX_WORDS = 5_000;   // 5k words is plenty for flashcard generation
 
 export async function POST(req: NextRequest) {
   const session = await getServerSession(authOptions);
