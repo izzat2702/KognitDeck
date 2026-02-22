@@ -84,7 +84,7 @@ export default function AboutPage() {
       <section className="relative bg-gradient-to-br from-blue-50 to-white py-24 px-6 text-center overflow-hidden">
         <AnimatedGridPattern
           numSquares={30}
-          maxOpacity={0.06}
+          maxOpacity={0.18}
           duration={3}
           repeatDelay={0.8}
           className={cn(
