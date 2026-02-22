@@ -67,11 +67,27 @@ export const authOptions: NextAuthOptions = {
         try {
           const dbUser = await prisma.user.findUnique({
             where: { id: token.id as string },
-            select: { plan: true, onboardingCompleted: true },
+            select: { id: true, plan: true, onboardingCompleted: true },
           });
           if (dbUser) {
             token.plan = dbUser.plan;
             token.onboardingCompleted = dbUser.onboardingCompleted;
+          } else if (token.email) {
+            // Stale session (e.g. after a DB migration) — the stored ID no
+            // longer exists. Try to find the user by email and heal the token.
+            const userByEmail = await prisma.user.findUnique({
+              where: { email: token.email as string },
+              select: { id: true, plan: true, onboardingCompleted: true },
+            });
+            if (userByEmail) {
+              token.id = userByEmail.id;
+              token.plan = userByEmail.plan;
+              token.onboardingCompleted = userByEmail.onboardingCompleted;
+            } else {
+              // User truly gone — invalidate so the session appears as
+              // unauthenticated and the user is prompted to sign in again.
+              token.id = undefined;
+            }
           }
         } catch {
           // DB temporarily unavailable — keep the values already on the token

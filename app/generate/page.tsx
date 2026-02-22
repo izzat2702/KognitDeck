@@ -26,6 +26,69 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 
+// Per-plan word limits for PDF text extraction
+const PDF_WORD_LIMITS: Record<string, number> = {
+  free: 3_000,
+  pro: 10_000,
+  premium: 20_000,
+};
+
+// Extract text from a PDF file entirely in the browser using pdfjs-dist.
+// Stops page-by-page once maxWords is reached so large PDFs finish quickly.
+async function extractPdfText(
+  file: File,
+  maxWords: number
+): Promise<{
+  text: string;
+  totalPages: number;
+  parsedPages: number;
+  wordCount: number;
+  wasLimited: boolean;
+}> {
+  // Dynamic import keeps pdfjs-dist out of the initial JS bundle
+  const pdfjsLib = await import("pdfjs-dist");
+
+  // Point the worker at a CDN copy that matches the installed version —
+  // this avoids Next.js webpack complications with worker files.
+  pdfjsLib.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@${pdfjsLib.version}/build/pdf.worker.min.mjs`;
+
+  const arrayBuffer = await file.arrayBuffer();
+  const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+
+  const totalPages = pdf.numPages;
+  const words: string[] = [];
+  let parsedPages = 0;
+  let wasLimited = false;
+
+  for (let i = 1; i <= totalPages; i++) {
+    const page = await pdf.getPage(i);
+    const content = await page.getTextContent();
+    const pageText = content.items
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      .map((item: any) => ("str" in item ? item.str : ""))
+      .join(" ");
+
+    const pageWords = pageText.split(/\s+/).filter(Boolean);
+    words.push(...pageWords);
+    parsedPages = i;
+
+    if (words.length >= maxWords) {
+      wasLimited = true;
+      break;
+    }
+  }
+
+  const finalWords = wasLimited ? words.slice(0, maxWords) : words;
+
+  return {
+    text: finalWords.join(" "),
+    totalPages,
+    parsedPages,
+    wordCount: finalWords.length,
+    wasLimited,
+  };
+}
+
 export default function GeneratePage() {
   const { data: session, status } = useSession();
   const router = useRouter();
@@ -45,6 +108,7 @@ export default function GeneratePage() {
   const [pdfText, setPdfText] = useState("");
   const [pdfPages, setPdfPages] = useState(0);
   const [pdfParsedPages, setPdfParsedPages] = useState(0);
+  const [pdfWordCount, setPdfWordCount] = useState(0);
   const [pdfTruncated, setPdfTruncated] = useState(false);
   const [pdfUploading, setPdfUploading] = useState(false);
   const [pdfError, setPdfError] = useState("");
@@ -53,6 +117,12 @@ export default function GeneratePage() {
   const plan = session?.user?.plan ?? "free";
   const isPro = plan === "pro" || plan === "premium";
   const isPremium = plan === "premium";
+
+  const pdfWordLimit = PDF_WORD_LIMITS[plan] ?? 3_000;
+
+  // Label shown in the upgrade prompt
+  const nextPlanLabel =
+    plan === "free" ? "Pro (10,000 words)" : plan === "pro" ? "Premium (20,000 words)" : null;
 
   async function handlePdfUpload(file: File) {
     if (file.type !== "application/pdf") {
@@ -67,24 +137,34 @@ export default function GeneratePage() {
     setPdfFile(file);
     setPdfText("");
     setPdfPages(0);
+    setPdfWordCount(0);
     setPdfError("");
     setPdfUploading(true);
 
-    const formData = new FormData();
-    formData.append("file", file);
+    try {
+      const result = await extractPdfText(file, pdfWordLimit);
 
-    const res = await fetch("/api/parse-pdf", { method: "POST", body: formData });
-    const data = await res.json();
-    setPdfUploading(false);
+      if (!result.text) {
+        setPdfError(
+          "Could not extract text from this PDF. It may be a scanned image or password-protected."
+        );
+        setPdfFile(null);
+        setPdfUploading(false);
+        return;
+      }
 
-    if (!res.ok) {
-      setPdfError(data.error ?? "Failed to parse PDF.");
+      setPdfText(result.text);
+      setPdfPages(result.totalPages);
+      setPdfParsedPages(result.parsedPages);
+      setPdfWordCount(result.wordCount);
+      setPdfTruncated(result.wasLimited);
+    } catch {
+      setPdfError(
+        "Failed to parse PDF. The file may be corrupted or password-protected."
+      );
       setPdfFile(null);
-    } else {
-      setPdfText(data.text);
-      setPdfPages(data.pages);
-      setPdfParsedPages(data.parsedPages ?? data.pages);
-      setPdfTruncated(data.truncated ?? false);
+    } finally {
+      setPdfUploading(false);
     }
   }
 
@@ -93,6 +173,7 @@ export default function GeneratePage() {
     setPdfText("");
     setPdfPages(0);
     setPdfParsedPages(0);
+    setPdfWordCount(0);
     setPdfTruncated(false);
     setPdfError("");
   }
@@ -264,7 +345,7 @@ export default function GeneratePage() {
                   <TabsContent value="pdf" className="mt-4">
                     {pdfText ? (
                       /* Success state — PDF parsed */
-                      <div className="border-2 border-green-200 rounded-xl p-5 bg-green-50">
+                      <div className="border-2 border-green-200 rounded-xl p-5 bg-green-50 space-y-3">
                         <div className="flex items-start justify-between gap-3">
                           <div className="flex items-start gap-3 min-w-0">
                             <div className="shrink-0 w-10 h-10 rounded-lg bg-green-100 flex items-center justify-center">
@@ -275,10 +356,13 @@ export default function GeneratePage() {
                                 {pdfFile?.name}
                               </p>
                               <p className="text-xs text-gray-500 mt-0.5">
-                                {pdfTruncated || pdfParsedPages < pdfPages
-                                  ? `${pdfParsedPages} of ${pdfPages} pages parsed`
-                                  : `${pdfPages} ${pdfPages === 1 ? "page" : "pages"}`
-                                } · {pdfText.length.toLocaleString()} characters extracted
+                                {pdfParsedPages < pdfPages
+                                  ? `${pdfParsedPages} of ${pdfPages} pages read`
+                                  : `${pdfPages} ${pdfPages === 1 ? "page" : "pages"}`}
+                                {" · "}
+                                <span className="font-medium text-gray-700">
+                                  {pdfWordCount.toLocaleString()} words extracted
+                                </span>
                               </p>
                             </div>
                           </div>
@@ -289,59 +373,88 @@ export default function GeneratePage() {
                             <X className="w-4 h-4" />
                           </button>
                         </div>
-                        <p className="text-xs text-green-700 font-medium mt-3">
+
+                        <p className="text-xs text-green-700 font-medium">
                           ✓ Text extracted successfully — ready to generate flashcards
                         </p>
-                        {(pdfTruncated || pdfParsedPages < pdfPages) && (
-                          <p className="text-xs text-amber-600 mt-1">
-                            Only the first {pdfParsedPages} pages / 10,000 words were used — sufficient for generating flashcards.
+
+                        {/* Plan limit info */}
+                        <div className="rounded-lg bg-white border border-green-200 px-3 py-2.5 text-xs space-y-1">
+                          <p className="text-gray-600">
+                            <span className="font-semibold capitalize">{plan}</span> plan limit:{" "}
+                            <span className="font-semibold">{pdfWordLimit.toLocaleString()} words</span>
+                            {pdfTruncated && (
+                              <span className="text-amber-600"> — limit reached, PDF had more content</span>
+                            )}
                           </p>
-                        )}
+                          {pdfTruncated && nextPlanLabel && (
+                            <p className="text-blue-600 font-medium">
+                              Upgrade to {nextPlanLabel} to extract more content from this PDF.{" "}
+                              <Link href="/pricing" className="underline">
+                                View plans →
+                              </Link>
+                            </p>
+                          )}
+                        </div>
                       </div>
                     ) : pdfUploading ? (
-                      /* Uploading / parsing state */
+                      /* Parsing state */
                       <div className="border-2 border-dashed border-blue-200 rounded-xl p-10 text-center bg-blue-50">
                         <div className="w-10 h-10 border-2 border-blue-400 border-t-transparent rounded-full animate-spin mx-auto mb-3" />
                         <p className="text-sm font-medium text-gray-700">Parsing PDF…</p>
-                        <p className="text-xs text-gray-400 mt-1">Extracting text from {pdfFile?.name}</p>
+                        <p className="text-xs text-gray-400 mt-1">
+                          Extracting up to {pdfWordLimit.toLocaleString()} words from {pdfFile?.name}
+                        </p>
                       </div>
                     ) : (
                       /* Drop zone */
-                      <label
-                        className={`block border-2 border-dashed rounded-xl p-10 text-center cursor-pointer transition-colors ${
-                          dragOver
-                            ? "border-blue-400 bg-blue-50"
-                            : pdfError
-                            ? "border-red-300 bg-red-50"
-                            : "border-gray-200 bg-gray-50 hover:border-blue-300 hover:bg-blue-50/40"
-                        }`}
-                        onDragOver={(e) => { e.preventDefault(); setDragOver(true); }}
-                        onDragLeave={() => setDragOver(false)}
-                        onDrop={(e) => {
-                          e.preventDefault();
-                          setDragOver(false);
-                          const file = e.dataTransfer.files[0];
-                          if (file) handlePdfUpload(file);
-                        }}
-                      >
-                        <input
-                          type="file"
-                          accept="application/pdf"
-                          className="sr-only"
-                          onChange={(e) => {
-                            const file = e.target.files?.[0];
+                      <div className="space-y-2">
+                        <label
+                          className={`block border-2 border-dashed rounded-xl p-10 text-center cursor-pointer transition-colors ${
+                            dragOver
+                              ? "border-blue-400 bg-blue-50"
+                              : pdfError
+                              ? "border-red-300 bg-red-50"
+                              : "border-gray-200 bg-gray-50 hover:border-blue-300 hover:bg-blue-50/40"
+                          }`}
+                          onDragOver={(e) => { e.preventDefault(); setDragOver(true); }}
+                          onDragLeave={() => setDragOver(false)}
+                          onDrop={(e) => {
+                            e.preventDefault();
+                            setDragOver(false);
+                            const file = e.dataTransfer.files[0];
                             if (file) handlePdfUpload(file);
                           }}
-                        />
-                        <Upload className={`w-10 h-10 mx-auto mb-3 ${dragOver ? "text-blue-400" : "text-gray-300"}`} />
-                        <p className="text-sm font-medium text-gray-700 mb-1">
-                          Drop your PDF here, or <span className="text-blue-600">browse</span>
+                        >
+                          <input
+                            type="file"
+                            accept="application/pdf"
+                            className="sr-only"
+                            onChange={(e) => {
+                              const file = e.target.files?.[0];
+                              if (file) handlePdfUpload(file);
+                            }}
+                          />
+                          <Upload className={`w-10 h-10 mx-auto mb-3 ${dragOver ? "text-blue-400" : "text-gray-300"}`} />
+                          <p className="text-sm font-medium text-gray-700 mb-1">
+                            Drop your PDF here, or <span className="text-blue-600">browse</span>
+                          </p>
+                          <p className="text-xs text-gray-400">PDF only · max 10 MB</p>
+                          {pdfError && (
+                            <p className="mt-3 text-xs text-red-600 font-medium">{pdfError}</p>
+                          )}
+                        </label>
+                        {/* Plan word limit hint */}
+                        <p className="text-xs text-gray-400 text-center">
+                          Your <span className="capitalize font-medium">{plan}</span> plan extracts up to{" "}
+                          <span className="font-medium">{pdfWordLimit.toLocaleString()} words</span>.{" "}
+                          {plan !== "premium" && (
+                            <Link href="/pricing" className="text-blue-500 hover:underline">
+                              Upgrade for more →
+                            </Link>
+                          )}
                         </p>
-                        <p className="text-xs text-gray-400">PDF only · max 10 MB</p>
-                        {pdfError && (
-                          <p className="mt-3 text-xs text-red-600 font-medium">{pdfError}</p>
-                        )}
-                      </label>
+                      </div>
                     )}
                   </TabsContent>
 
